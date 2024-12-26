@@ -1,32 +1,14 @@
-// import { exec } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { exec } from "child_process";
 
-// השתמש ב-import.meta.url כדי לחשב את __dirname
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const videoPath = "C:\Users\Public\Downloads\%(title)s.%(ext)s";
 
-// export const getVideo = (url: string) => {
-//   return new Promise((resolve, reject) => {
-//     // השתמש ב-encodeURIComponent להימנע מבעיות עם תווים מיוחדים ב-URL
-//     const safeUrl = encodeURIComponent(url);
-
-//     // יצירת נתיב דינמי לפי שם הווידאו
-//     const videoPath = path.join(__dirname, "..", "downloads", "%(title)s.%(ext)s");
-
-//     // הרצת פקודת yt-dlp להורדת הסרטון
-//     exec(`yt-dlp -f b best -o "${videoPath}" "${safeUrl}"`, (err, stdout, stderr) => {
-//       if (err) {
-//         console.error("Error downloading video:", stderr);
-//         return reject(err);
-//       }
-//       console.log("Video downloaded:", stdout);
-//       resolve(videoPath); // מחזיר את הנתיב של הקובץ שהורד
-//     });
-//   });
-// };
-
-export const deleteVideo = () => {
- console.log("deleteVideo");
- 
+export const getVideo = async (url: string) => {
+  exec(`yt-dlp -f bestvideo+bestaudio -o "${videoPath}" "${url}"`, (err, stdout, stderr) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(stdout);
+    console.log(stderr);
+  });
 };

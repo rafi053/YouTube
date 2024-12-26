@@ -23,7 +23,6 @@ app.use(
 
 app.use("/", videoRoutes);
 
-
 httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

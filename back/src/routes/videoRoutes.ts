@@ -6,6 +6,6 @@ import  * as videoController  from "../controllers/videoController";
 
 const router = express.Router();
 
-router.post("/download", videoController.deleteVideo);
+router.get("/download", videoController.getVideo);
 
 export default router;
