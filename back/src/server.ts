@@ -4,13 +4,13 @@ import { createServer } from "http";
 
 import videoRoutes from './routes/videoRoutes'; 
 
-import { initializeSocketServer } from "./socketServer";
+// import { initializeSocketServer } from "./socketServer";
 
 
 const PORT = 3000;
 const app = express();
 const httpServer = createServer(app);
-export const io = initializeSocketServer(httpServer);
+// export const io = initializeSocketServer(httpServer);
 
 
 app.use(express.json());

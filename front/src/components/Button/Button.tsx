@@ -4,10 +4,9 @@ import * as fetchData from '../../fetchData/fetchData'
 
 interface ButtonProps {
   url?: string
-  onDownload: () => void
 }
 
-const Button:React.FC<ButtonProps> = ({url, onDownload}) => {
+const Button:React.FC<ButtonProps> = ({url}) => {
   console.log('url', url);
   
 
@@ -18,7 +17,7 @@ const Button:React.FC<ButtonProps> = ({url, onDownload}) => {
       return;
     }
 
-      const response = await fetchData.getVideo(urlProps, 'socketId');
+      const response = await fetchData.getVideo(urlProps);
       console.log('response', response);
 
   }
