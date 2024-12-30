@@ -23,7 +23,7 @@ const Button:React.FC<ButtonProps> = ({url}) => {
   }
   return (
     <>
-      <button className="button"  onClick={() => handelClick(url)}><span className="text">Send</span></button>
+      <button className="button"  onClick={() => handelClick(url)}><span className="text">Download</span></button>
     </>
   )
 }

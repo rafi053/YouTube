@@ -1,56 +1,41 @@
-import { Request, Response } from "express";
-import * as videoService from "../services/videoService";
-// // import fs from "fs/promises";
+import { Request, Response } from 'express';
+import * as videoService from '../services/videoService';
+import path from 'path';
 
-export const getVideo = async (req: Request, res: Response) => {
+export const getVideo = async (req: Request, res: Response): Promise<void> => {
   try {
     const { url } = req.query;
-    if (!url) {
-    res.status(400).json({ error: "No URL provided" });
-    }
-    const decodedUrl = decodeURIComponent(url as string);
 
-    const video = await videoService.getVideo(decodedUrl);
-    res.status(200).json(video);
+    if (!url) {
+      res.status(400).json({ error: "No URL provided" });
+      return;
+    }
+
+    const decodedUrl = decodeURIComponent(url as string);
+    const videoPath = await videoService.getVideo(decodedUrl);
+
+    // נרמול הנתיב
+    const normalizedPath = path.normalize(videoPath);
+    console.log('Normalized file path:', normalizedPath);
+
+    // קביעת שם הקובץ שיתקבל
+    const fileName = encodeURIComponent(path.basename(normalizedPath));
+
+    // הגדרת כותרות להורדת קובץ
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.setHeader('Content-Type', 'application/octet-stream');
+
+    // שליחת הקובץ
+    res.download(normalizedPath, fileName, (err) => {
+      if (err) {
+        console.error('Error sending file:', err);
+        res.status(500).json({ error: 'Failed to send video file' });
+      } else {
+        console.log('File sent successfully:', normalizedPath);
+      }
+    });
   } catch (error) {
-    console.error("Error in userController:", error);
-    res.status(500).json({ error: error || "Unexpected error" });
+    console.error('Error in videoController:', error);
+    res.status(500).json({ error: 'Unexpected error occurred' });
   }
 };
-
-
-// //     if (!url) {
-// //       console.error("No URL provided");
-// //       return res.status(400).json({ error: "No URL provided" });
-// //     }
-
-// //     console.log("URL received:", url);
-
-// //     // פיענוח ה-URL
-// //     const decodedUrl = decodeURIComponent(url);
-// //     console.log("Decoded URL:", decodedUrl);
-
-// //     // קריאה לשירות הוידאו
-// //     const result = await videoService.getVideo(decodedUrl);
-// //     console.log("VideoService result:", result);
-
-// //     // מחיקת הקובץ מהשרת אחרי השליחה
-// //     const filePath:any = result; // עדכן את המיקום על פי השירות
-// //     res.download(filePath, async (err) => {
-// //       if (err) {
-// //         console.error("Error sending file:", err.message);
-// //         return res.status(500).json({ error: "Failed to send video file" });
-// //       }
-
-// //       try {
-// //         await fs.unlink(filePath);
-// //         console.log("Temporary file deleted:", filePath);
-// //       } catch (error: any | unknown) {
-// //         console.error("Error deleting temporary file:", error.message);
-// //       }
-// //     });
-// //   } catch (error) {
-// //     console.error("Error in videoController:", error); // ודא הדפסה
-// //     res.status(500).json({ error: error || "Unexpected error" });
-// //   }
-// // };
