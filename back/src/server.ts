@@ -5,14 +5,13 @@ import { createServer } from "http";
 import videoRoutes from './routes/videoRoutes'; 
 
 import { initializeSocketServer } from "./socketServer";
-import { initializeSocket } from "./controllers/videoController";
 
 
 const PORT = 3000;
 const app = express();
 const httpServer = createServer(app);
-const io = initializeSocketServer(httpServer);
-initializeSocket(io);
+export const io = initializeSocketServer(httpServer);
+
 
 app.use(express.json());
 const corsConfig = {

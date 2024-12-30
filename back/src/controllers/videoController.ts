@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
 import * as videoService from '../services/videoService';
 import { Server as SocketIOServer } from "socket.io";
+import { io } from '../server';
 
-let io: SocketIOServer;
-
-export const initializeSocket = (socketIo: SocketIOServer) => {
-  io = socketIo;
-};
 
 export const getVideo = async (req: Request, res: Response): Promise<void> => {
   try {

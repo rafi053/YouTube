@@ -22,7 +22,9 @@ const Home: React.FC = () => {
       console.log("Connected to server");
     });
 
-    socket.on("progress", (data: number) => {
+    socket.on("download", (data: number) => {
+      console.log("Download progress:", data);
+      
       setProgress(data);
     });
 

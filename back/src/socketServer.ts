@@ -1,11 +1,12 @@
 import { Server } from "socket.io";
 import { Server as HTTPServer } from "http";
+import { getVideo } from "./services/videoService";
 
 export function initializeSocketServer(httpServer: HTTPServer) {
   const io = new Server(httpServer, {
     cors: {
       origin: "http://localhost:5173",
-      methods: ["GET", "POST"],
+      methods: "*",
       allowedHeaders: ["Content-Type"],
       credentials: true,
     },
@@ -16,9 +17,15 @@ export function initializeSocketServer(httpServer: HTTPServer) {
 
     socket.emit("welcome", { message: "Welcome to the Socket Server!" });
 
-    socket.on("download", (data) => {
-      console.log("download request received:", data);
-      io.emit("download", data);
+    socket.on("download", async (data) => {
+      const { url } = data;
+      try {
+        await getVideo(url, io, socket.id, (progressData) => {
+          socket.emit("progress", progressData);
+        });
+      } catch (error: any) {
+        socket.emit("error", error.message);
+      }
     });
 
     socket.on("disconnect", (reason) => {
