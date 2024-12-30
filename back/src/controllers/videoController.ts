@@ -12,7 +12,7 @@ export const getVideo = async (req: Request, res: Response): Promise<void> => {
     }
 
     const decodedUrl = decodeURIComponent(url as string);
-
+   
     await videoService.getVideo(decodedUrl);
 
     res.status(200).json({ message: "Download process initiated" });
