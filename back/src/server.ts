@@ -4,22 +4,22 @@ import { createServer } from "http";
 
 import videoRoutes from './routes/videoRoutes'; 
 
-// import { initializeSocketServer } from "./socketServer";
-// import { initializeSocket } from "./controllers/videoController";
+import { initializeSocketServer } from "./socketServer";
+import { initializeSocket } from "./controllers/videoController";
 
 
 const PORT = 3000;
 const app = express();
 const httpServer = createServer(app);
-// const io = initializeSocketServer(httpServer);
-// initializeSocket(io);
+const io = initializeSocketServer(httpServer);
+initializeSocket(io);
 
 app.use(express.json());
-app.use(
-  cors({
-   
-  })
-);
+const corsConfig = {
+  credentials: true,
+  origin: true,
+};
+app.use(cors(corsConfig))
 
 app.use("/", videoRoutes);
 
