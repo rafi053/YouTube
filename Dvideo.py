@@ -5,7 +5,7 @@ def download_video(url):
     print(f"Starting download from URL: {url}")
     
     ydl_opts = {
-        'format': 'best',
+        'format': 'bestvideo+bestaudio/best',
         'outtmpl': os.path.join(os.getcwd(), '%(title)s.%(ext)s'),
     }
 
@@ -17,5 +17,9 @@ def download_video(url):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    url = input("Enter the video URL: ")
-    download_video(url)
+    while True:
+        url = input("Enter a YouTube link for a video or playlist (or type 'e' to exit): ")
+        if url.lower() == 'e':
+            print("Exiting program.")
+            break
+        download_video(url)
