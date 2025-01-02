@@ -29,11 +29,15 @@ bash
 
 pip install pyinstaller
 
-לפי השם של האפליקציה שלך הרץ:
+  לפי השם של האפליקציה שלך הרץ:
 
 bash
 
 pyinstaller --onefile app.py
+
+עבור GUI בלבד :
+
+pyinstaller --noconsole --onefi YouTubeDownloader.py
 
 בתיקייה dist:
 
